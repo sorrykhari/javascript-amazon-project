@@ -1,6 +1,7 @@
 // 1. Import variables from Module and load product data
-import { cart } from '../data/cart.js';
+import { cart, addToCart } from '../data/cart.js';
 import { products } from '../data/products.js';
+
 
 // 2. Use data to generate HTML
 let productsHTML = '';
@@ -60,12 +61,37 @@ products.forEach((product) => {
       </div>`;
 });
 
+
 document.querySelector('.js-products-grid').
   innerHTML = productsHTML; // Puts generated HTML in products grid container 
 
   // 3. Make it interactive
 
   let intervalId; // Create interval id for added message
+
+  
+
+  function updateCartQuantity() {
+    let cartQuantity = 0;
+
+    cart.forEach((cartItem) => {  
+      cartQuantity += cartItem.quantity     
+    });
+    
+    document.querySelector('.js-cart-quantity')
+    .innerHTML = cartQuantity;
+  }
+
+  function addedMessage(productId, intervalId) {
+    const addedElement = document.querySelector(`.js-added-to-cart-${productId}`);
+    addedElement.classList.add('was-added');
+
+    
+    clearInterval(intervalId);
+    intervalId = setTimeout(() => {
+      addedElement.classList.remove('was-added');
+    }, 2000)
+  }
 
   document.querySelectorAll('.js-add-to-cart')
     .forEach((button) => {
@@ -74,48 +100,16 @@ document.querySelector('.js-products-grid').
         const { productId } = button.dataset; // button.dataset.productId - destructed & name gets converted from kebab case to camel case
         
         // Get amount from selector dropdown
-        selectElement = document.querySelector(`.js-quantity-selector-${productId}`);
-        quantity = Number(selectElement.value);
+        const selectElement = document.querySelector(`.js-quantity-selector-${productId}`);
+        let quantity = Number(selectElement.value);
         
         // Create green added pop up and remove after two seconds
-        addedElement = document.querySelector(`.js-added-to-cart-${productId}`);
-        addedElement.classList.add('was-added');
-
+        addedMessage(productId, intervalId);
         
-        clearInterval(intervalId);
-        intervalId = setTimeout(() => {
-          addedElement.classList.remove('was-added');
-        }, 2000)
-        
-        // Check if product object exists in cart arrayww already
-        let matchedItem;
-
-        cart.forEach((item) => {
-          if (productId === item.productId) {
-            matchedItem = item;
-          }
-        });
-
-        // If exists add quantity selected
-        if (matchedItem) {
-          matchedItem.quantity += quantity;
-        }
-        // If not create product object
-        else {
-          cart.push({
-            productId,
-            quantity
-          });
-        }
+        // Add product object to cart array
+        addToCart(productId, quantity);
 
         //Change cart quantity on top right of page
-        let cartQuantity = 0;
-
-        cart.forEach((item) => {  
-          cartQuantity += item.quantity     
-        });
-        
-        document.querySelector('.js-cart-quantity')
-        .innerHTML = cartQuantity;
+        updateCartQuantity();
       });
     });
