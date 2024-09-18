@@ -1,5 +1,6 @@
 // 1. Import variables from Module and load product data
 import { cart } from '../data/cart.js';
+import { products } from '../data/products.js';
 
 // 2. Use data to generate HTML
 let productsHTML = '';
@@ -60,7 +61,7 @@ products.forEach((product) => {
 });
 
 document.querySelector('.js-products-grid').
-  innerHTML = productsHTML;
+  innerHTML = productsHTML; // Puts generated HTML in products grid container 
 
   // 3. Make it interactive
 
