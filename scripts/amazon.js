@@ -29,7 +29,7 @@ products.forEach((product) => {
         </div>
 
         <div class="product-quantity-container">
-          <select>
+          <select class="js-quantity-selector-${product.id}">
             <option selected value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -66,7 +66,12 @@ document.querySelector('.js-products-grid').
   document.querySelectorAll('.js-add-to-cart')
     .forEach((button) => {
       button.addEventListener('click', () => {
+        // Initializing some data and elements
         const productId = button.dataset.productId; // name gets converted from kebab case to camel case
+        selectElement = document.querySelector(`.js-quantity-selector-${productId}`);
+        selectAmount = Number(selectElement.value);
+        
+        // Check if product object exists in cart arrayww already
         let matchedItem;
 
         cart.forEach((item) => {
@@ -75,16 +80,19 @@ document.querySelector('.js-products-grid').
           }
         });
 
+        // If exists add quantity selected
         if (matchedItem) {
-          matchedItem.quantity++;
+          matchedItem.quantity += selectAmount;
         }
+        // If not create product object
         else {
           cart.push({
             productId: productId,
-            quantity: 1
+            quantity: selectAmount
           });
         }
 
+        //Change cart quantity on top right of page
         let cartQuantity = 0;
 
         cart.forEach((item) => {  
