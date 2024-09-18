@@ -1,4 +1,5 @@
-// 1. Save the data -Load data structure from data/products.js
+// 1. Import variables from Module and load product data
+import { cart } from '../data/cart.js';
 
 // 2. Use data to generate HTML
 let productsHTML = '';
@@ -64,7 +65,7 @@ document.querySelector('.js-products-grid').
   // 3. Make it interactive
 
   let intervalId; // Create interval id for added message
-  
+
   document.querySelectorAll('.js-add-to-cart')
     .forEach((button) => {
       button.addEventListener('click', () => {
