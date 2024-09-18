@@ -656,5 +656,53 @@ const products = [
       "apparel",
       "mens"
     ]
+  },
+  {
+    id: "id1",
+    image: "https://m.media-amazon.com/images/I/51YMyR2ItkL._AC_SX425_.jpg",
+    name: "Pokemon Center: Sitting Cuties: Mewtwo Plush # 150 - Generation 1",
+    rating: {
+      stars: 3.5,
+      count: 186
+    },
+    priceCents: 3999,
+    keywords: [
+      "pokemon",
+      "games",
+      "anime",
+      "japan"
+    ]
+  },
+  {
+    id: "id2",
+    image: "https://m.media-amazon.com/images/I/51-wtgwBmIL._AC_SL1200_.jpg",
+    name: "Frog Dragon I Nick Michel Skateboard Deck - Black - 8.25",
+    rating: {
+      stars: 4.5,
+      count: 83
+    },
+    priceCents: 7695,
+    keywords: [
+      "skateboard",
+      "frog",
+      "skateboaring",
+      "extreme sports"
+    ]
+  },
+  {
+    id: "id3",
+    image: "https://m.media-amazon.com/images/I/51TNwmUxQTL._AC_SY395_.jpg",
+    name: "Punk Skeleton Skull Necklace Captivity Skull Pendent Biker Rock Jewelry Gift for Men and Women",
+    rating: {
+      stars: 4.0,
+      count: 213
+    },
+    priceCents: 1199,
+    keywords: [
+      "punk",
+      "goth",
+      "skeleton",
+      "necklace"
+    ]
   }
 ];

@@ -45,7 +45,7 @@ products.forEach((product) => {
 
         <div class="product-spacer"></div>
 
-        <div class="added-to-cart">
+        <div class="added-to-cart js-added-to-cart-${product.id}">
           <img src="images/icons/checkmark.png">
           Added
         </div>
@@ -63,13 +63,27 @@ document.querySelector('.js-products-grid').
 
   // 3. Make it interactive
 
+  let intervalId; // Create interval id for added message
+  
   document.querySelectorAll('.js-add-to-cart')
     .forEach((button) => {
       button.addEventListener('click', () => {
-        // Initializing some data and elements
-        const productId = button.dataset.productId; // name gets converted from kebab case to camel case
+        // Initializing button data
+        const { productId } = button.dataset; // button.dataset.productId - destructed & name gets converted from kebab case to camel case
+        
+        // Get amount from selector dropdown
         selectElement = document.querySelector(`.js-quantity-selector-${productId}`);
-        selectAmount = Number(selectElement.value);
+        quantity = Number(selectElement.value);
+        
+        // Create green added pop up and remove after two seconds
+        addedElement = document.querySelector(`.js-added-to-cart-${productId}`);
+        addedElement.classList.add('was-added');
+
+        
+        clearInterval(intervalId);
+        intervalId = setTimeout(() => {
+          addedElement.classList.remove('was-added');
+        }, 2000)
         
         // Check if product object exists in cart arrayww already
         let matchedItem;
@@ -82,13 +96,13 @@ document.querySelector('.js-products-grid').
 
         // If exists add quantity selected
         if (matchedItem) {
-          matchedItem.quantity += selectAmount;
+          matchedItem.quantity += quantity;
         }
         // If not create product object
         else {
           cart.push({
-            productId: productId,
-            quantity: selectAmount
+            productId,
+            quantity
           });
         }
 
