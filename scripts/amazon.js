@@ -50,15 +50,48 @@ products.forEach((product) => {
           Added
         </div>
 
-        <button class="add-to-cart-button button-primary">
+        <button class="add-to-cart-button button-primary
+        js-add-to-cart"
+        data-product-id="${product.id}">
           Add to Cart
         </button>
       </div>`;
 });
 
-console.log(productsHTML);
-
-// 3. Put HTML on the page using the DOM
-
 document.querySelector('.js-products-grid').
   innerHTML = productsHTML;
+
+  // 3. Make it interactive
+
+  document.querySelectorAll('.js-add-to-cart')
+    .forEach((button) => {
+      button.addEventListener('click', () => {
+        const productId = button.dataset.productId; // name gets converted from kebab case to camel case
+        let matchedItem;
+
+        cart.forEach((item) => {
+          if (productId === item.productId) {
+            matchedItem = item;
+          }
+        });
+
+        if (matchedItem) {
+          matchedItem.quantity++;
+        }
+        else {
+          cart.push({
+            productId: productId,
+            quantity: 1
+          });
+        }
+
+        let cartQuantity = 0;
+
+        cart.forEach((item) => {  
+          cartQuantity += item.quantity     
+        });
+        
+        document.querySelector('.js-cart-quantity')
+        .innerHTML = cartQuantity;
+      });
+    });
