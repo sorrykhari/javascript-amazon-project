@@ -1,4 +1,12 @@
-export const cart = [];
+export const cart = [{
+  productId: 'id1',
+  quantity: 3
+},
+{
+  productId: 'id2',
+  quantity: 1
+}]
+;
 
 export function addToCart(productId, quantity) {
     // Check if product object exists in cart array already
