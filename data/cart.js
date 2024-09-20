@@ -1,12 +1,19 @@
-export let cart = [{
-  productId: 'id1',
-  quantity: 3
-},
-{
-  productId: 'id2',
-  quantity: 1
-}]
-;
+export let cart = JSON.parse(localStorage.getItem('cart'));
+
+if(!cart){
+  cart = [{
+    productId: 'id1',
+    quantity: 3
+  },
+  {
+    productId: 'id2',
+    quantity: 1
+  }];
+}
+
+function saveToStorage() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
 
 export function addToCart(productId, quantity) {
     // Check if product object exists in cart array already
@@ -29,6 +36,8 @@ export function addToCart(productId, quantity) {
         quantity
       });
     }
+
+    saveToStorage();
   }
 
 export function removeFromCart(productId) {
@@ -40,4 +49,6 @@ export function removeFromCart(productId) {
   });
 
   cart = newCart;
+
+  saveToStorage();
 }
