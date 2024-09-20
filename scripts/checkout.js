@@ -1,12 +1,15 @@
 // 1. Save the data 2. Generate the HTML 3. Make it interactive
-import { cart, removeFromCart } from "../data/cart.js"; 
+import { cart, removeFromCart, calculateCartQuantity } from "../data/cart.js"; 
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js"; // single dot means current folder
 
 let cartSummaryHTML = '';
 
+updateCheckoutQuantity();
+
 cart.forEach((cartItem) => {
   const { productId } = cartItem;
+let cartQuantity = 0; 
 
   let matchingProduct; 
 
@@ -17,7 +20,6 @@ cart.forEach((cartItem) => {
   });
 
   console.log(matchingProduct);
-
 
  cartSummaryHTML += `
     <div class="cart-item-container
@@ -103,11 +105,24 @@ cart.forEach((cartItem) => {
 
 document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
 
+function updateCheckoutQuantity() {
+  let cartQuantity = 0;
+
+  cart.forEach((cartItem) => {  
+    cartQuantity += cartItem.quantity     
+  });
+  
+  document.querySelector('.js-checkout-header-middle-section')
+  .innerHTML = `Checkout (<a class="return-to-home-link"
+            href="amazon.html">${cartQuantity} items</a>)`;
+}
+
 document.querySelectorAll('.js-delete-link')
   .forEach((link) => {
     link.addEventListener('click', () => {
       const { productId } = link.dataset;
       removeFromCart(productId);
+      updateCheckoutQuantity();
 
       const container = document
       .querySelector(`.js-cart-item-container-${productId}`);

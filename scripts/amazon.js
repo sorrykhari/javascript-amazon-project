@@ -1,5 +1,5 @@
 // 1. Import variables from Module and load product data
-import { cart, addToCart } from '../data/cart.js';
+import { cart, addToCart, calculateCartQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
@@ -72,18 +72,19 @@ document.querySelector('.js-products-grid').
 
   
 
-  function updateCartQuantity() {
-    let cartQuantity = 0;
+function updateCartQuantity() {
+  
+  let cartQuantity = 0;
 
-    cart.forEach((cartItem) => {  
-      cartQuantity += cartItem.quantity     
-    });
+  cart.forEach((cartItem) => {  
+    cartQuantity += cartItem.quantity     
+  });
     
-    document.querySelector('.js-cart-quantity')
-    .innerHTML = cartQuantity;
-  }
+  document.querySelector('.js-cart-quantity')
+  .innerHTML = cartQuantity;
+}
 
-  function addedMessage(productId, intervalId) {
+function addedMessage(productId, intervalId) {
     const addedElement = document.querySelector(`.js-added-to-cart-${productId}`);
     addedElement.classList.add('was-added');
 
@@ -94,7 +95,7 @@ document.querySelector('.js-products-grid').
     }, 2000)
   }
 
-  document.querySelectorAll('.js-add-to-cart')
+document.querySelectorAll('.js-add-to-cart')
     .forEach((button) => {
       button.addEventListener('click', () => {
         // Initializing button data
