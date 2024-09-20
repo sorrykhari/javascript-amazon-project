@@ -6,6 +6,7 @@ import { formatCurrency } from './utils/money.js';
 // 2. Use data to generate HTML
 let productsHTML = '';
 
+updateCartQuantity(); // Update cart as page loads
 
 products.forEach((product) => {
   productsHTML += ` 
