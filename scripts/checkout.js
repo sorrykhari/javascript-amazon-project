@@ -9,7 +9,6 @@ updateCheckoutQuantity();
 
 cart.forEach((cartItem) => {
   const { productId } = cartItem;
-let cartQuantity = 0; 
 
   let matchingProduct; 
 
@@ -18,8 +17,6 @@ let cartQuantity = 0;
       matchingProduct = product;
     }
   });
-
-  console.log(matchingProduct);
 
  cartSummaryHTML += `
     <div class="cart-item-container
@@ -105,15 +102,15 @@ let cartQuantity = 0;
 
 document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
 
-function updateCheckoutQuantity() {
-  let cartQuantity = 0;
+console.log(cart);
 
-  cart.forEach((cartItem) => {  
-    cartQuantity += cartItem.quantity     
-  });
+
+function updateCheckoutQuantity() {
   
+  let cartQuantity = calculateCartQuantity();
+
   document.querySelector('.js-checkout-header-middle-section')
-  .innerHTML = `Checkout (<a class="return-to-home-link"
+    .innerHTML = `Checkout (<a class="return-to-home-link"
             href="amazon.html">${cartQuantity} items</a>)`;
 }
 
