@@ -1,5 +1,5 @@
 // 1. Save the data 2. Generate the HTML 3. Make it interactive
-import { cart, removeFromCart, calculateCartQuantity } from "../data/cart.js"; 
+import { cart, removeFromCart, calculateCartQuantity, updateQuantity } from "../data/cart.js"; 
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js"; // single dot means current folder
 
@@ -38,12 +38,18 @@ cart.forEach((cartItem) => {
           </div>
           <div class="product-quantity">${cartItem.quantity}
             <span>
-              Quantity: <span class="quantity-label">2</span>
+              Quantity: <span class="quantity-label
+              js-quantity-label-${matchingProduct.id}"></span>
             </span>
             <span class="update-quantity-link link-primary
-            js-update-quantity-link">
+            js-update-quantity-link" data-product-id="${matchingProduct.id}">
               Update
             </span>
+            <input class="quantity-input hidden
+            js-quantity-input-${matchingProduct.id}">
+            <span class="save-quantity-link hidden
+            link-primary
+            js-save-quantity-link-${matchingProduct.id}">Save</span>
             <span class="delete-quantity-link link-primary
             js-delete-link" data-product-id="${matchingProduct.id}">
               Delete
@@ -100,10 +106,8 @@ cart.forEach((cartItem) => {
   `;1
 });
 
+// Put generated HTML on page
 document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
-
-console.log(cart);
-
 
 function updateCheckoutQuantity() {
   
@@ -112,6 +116,11 @@ function updateCheckoutQuantity() {
   document.querySelector('.js-checkout-header-middle-section')
     .innerHTML = `Checkout (<a class="return-to-home-link"
             href="amazon.html">${cartQuantity} items</a>)`;
+}
+
+function updateQuantityLabel(productId, newQuantity) {
+  const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
+  quantityLabel.innerHTML = newQuantity;
 }
 
 document.querySelectorAll('.js-delete-link')
@@ -126,3 +135,36 @@ document.querySelectorAll('.js-delete-link')
       container.remove();
     });
   });
+
+
+  // Reveals quantity input box and save link when clicked.
+  document.querySelectorAll('.js-update-quantity-link')
+    .forEach((link) => {
+      link.addEventListener('click', () => {
+        const { productId } = link.dataset;
+
+        const inputBox = document.querySelector(`.js-quantity-input-${productId}`);
+        const saveLink = document.querySelector(`.js-save-quantity-link-${productId}`);
+        inputBox.classList.remove('hidden');
+        saveLink.classList.remove('hidden');
+        link.classList.add('hidden');
+        
+        // Removes input box and save link when clicked
+        saveLink.addEventListener('click', () => {
+          const newQuantity = Number(inputBox.value);
+          inputBox.classList.add('hidden');
+          saveLink.classList.add('hidden');
+          link.classList.remove('hidden');
+          updateQuantity(productId,newQuantity);
+          
+          // Update product quantity label based on input
+          updateQuantityLabel(productId, newQuantity);
+
+          // Update header checkout when product quantity changed in input
+          updateCheckoutQuantity();
+        });
+      });
+    });
+  
+
+
