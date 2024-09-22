@@ -152,10 +152,23 @@ document.querySelectorAll('.js-delete-link')
         // Removes input box and save link when clicked
         saveLink.addEventListener('click', () => {
           const newQuantity = Number(inputBox.value);
-          inputBox.classList.add('hidden');
-          saveLink.classList.add('hidden');
-          link.classList.remove('hidden');
-          updateQuantity(productId,newQuantity);
+          
+          // Quantity validation
+          if (newQuantity <= 0) {
+            alert('Quantity can be no less than 1. Select a different value.');
+          } 
+          else if (newQuantity >= 1000) {
+            alert('Quantity cannot exceed 1000. Select a different value.');
+          }
+          else if (newQuantity === NaN) {
+            alert('Quantity entered was not a number. Select a different value.');
+          }
+          else{
+            inputBox.classList.add('hidden');
+            saveLink.classList.add('hidden');
+            link.classList.remove('hidden');
+            updateQuantity(productId,newQuantity);
+          }
           
           // Update product quantity label based on input
           updateQuantityLabel(productId, newQuantity);
