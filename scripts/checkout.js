@@ -160,7 +160,7 @@ document.querySelectorAll('.js-delete-link')
           else if (newQuantity >= 1000) {
             alert('Quantity cannot exceed 1000. Select a different value.');
           }
-          else if (newQuantity === NaN) {
+          else if (isNaN(newQuantity)) {
             alert('Quantity entered was not a number. Select a different value.');
           }
           else{
