@@ -2,6 +2,14 @@
 import { cart, removeFromCart, calculateCartQuantity, updateQuantity } from "../data/cart.js"; 
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js"; // single dot means current folder
+import  dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
+
+const today = dayjs();
+const standardShipping = today.add(7,'day');
+const expeditedShipping = today.add(7,'day');
+const premiumShipping = today.add(7,'day');
+console.log(standardShipping.format('dddd, MMMM, D'));
+
 
 let cartSummaryHTML = '';
 
