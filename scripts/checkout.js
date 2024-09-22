@@ -36,7 +36,10 @@ cart.forEach((cartItem) => {
           <div class="product-price">
             ${formatCurrency(matchingProduct.priceCents)}
           </div>
-          <div class="product-quantity">${cartItem.quantity}
+          <div class="product-quantity
+          js-product-quantity-${matchingProduct.id}">
+          <span class="original-quantity
+          js-original-quantity-${matchingProduct.id}">${cartItem.quantity}</span>
             <span>
               Quantity: <span class="quantity-label
               js-quantity-label-${matchingProduct.id}"></span>
@@ -120,8 +123,9 @@ function updateCheckoutQuantity() {
 
 function updateQuantityLabel(productId, newQuantity) {
   const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
-  quantityLabel.innerHTML = newQuantity;
+  quantityLabel.innerText = newQuantity;
 }
+
 
 document.querySelectorAll('.js-delete-link')
   .forEach((link) => {
@@ -145,6 +149,7 @@ document.querySelectorAll('.js-delete-link')
 
         const inputBox = document.querySelector(`.js-quantity-input-${productId}`);
         const saveLink = document.querySelector(`.js-save-quantity-link-${productId}`);
+        const originalQuantity = document.querySelector(`.js-original-quantity-${productId}`);
         inputBox.classList.remove('hidden');
         saveLink.classList.remove('hidden');
         link.classList.add('hidden');
@@ -167,6 +172,7 @@ document.querySelectorAll('.js-delete-link')
             inputBox.classList.add('hidden');
             saveLink.classList.add('hidden');
             link.classList.remove('hidden');
+            originalQuantity.innerText = '';
             updateQuantity(productId,newQuantity);
           }
           
