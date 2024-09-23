@@ -120,6 +120,8 @@ cart.forEach((cartItem) => {
 // Put generated HTML on page
 document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
 
+function deliveryOptionsHTML() {}
+
 function updateCheckoutQuantity() {
   
   let cartQuantity = calculateCartQuantity();
