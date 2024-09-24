@@ -770,3 +770,15 @@ export const products = [
     ]
   }
 ];
+
+export function findMatchingProduct(productId) {
+  let matchedProduct;
+
+  products.forEach((product) => {
+    if (product.id === productId) {
+      matchedProduct = product;
+    }
+  });
+
+  return matchedProduct;
+}

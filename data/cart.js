@@ -17,7 +17,7 @@ function saveToStorage() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-function findMatchingProduct(productId) {
+export function findInCart(productId) {
   let matchedItem;
 
   cart.forEach((cartItem) => {
@@ -31,8 +31,7 @@ function findMatchingProduct(productId) {
 
 export function addToCart(productId, quantity) {
     // Check if product object exists in cart array already
-    let matchedItem;
-    matchedItem = findMatchingProduct();
+    const matchedItem = findInCart(productId);
 
     // If exists add quantity selected
     if (matchedItem) {
@@ -87,11 +86,12 @@ export function updateQuantity(productId, newQuantity) {
   });
 }
 
+// I have no idea why this is working but I will not question it.
 export function updateDeliveryOption(productId, deliveryOptionId) {
-  let matchedItem;
-  matchedItem = findMatchingProduct(productId);
+  const matchedItem = findInCart(productId);
 
   matchedItem.deliveryOptionId = deliveryOptionId;
 
   saveToStorage();
 }
+
