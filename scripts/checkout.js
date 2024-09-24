@@ -20,11 +20,27 @@ cart.forEach((cartItem) => {
     }
   });
 
- cartSummaryHTML += `
+  const deliveryOptionId = cartItem.deliveryOptionId;
+  let deliveryOption;
+
+  deliveryOptions.forEach((option) => {
+    if (deliveryOptionId === option.id) {
+      deliveryOption = option;
+    }
+  });
+
+  const today = dayjs();
+  const deliveryDate = today.add(
+    deliveryOption.deliveryDays,
+    'day'
+  );
+  const dateString = deliveryDate.format('dddd, MMMM, D');
+
+  cartSummaryHTML += `
     <div class="cart-item-container
     js-cart-item-container-${matchingProduct.id}">
       <div class="delivery-date">
-        Delivery date: Tuesday, June 21
+        Delivery date: ${dateString}
       </div>
 
       <div class="cart-item-details-grid">
@@ -66,7 +82,7 @@ cart.forEach((cartItem) => {
           <div class="delivery-options-title">
             Choose a delivery option:
           </div>
-          ${deliveryOptionsHTML(matchingProduct)}
+          ${deliveryOptionsHTML(matchingProduct, cartItem)}
         </div>
       </div>
     </div>
@@ -76,7 +92,7 @@ cart.forEach((cartItem) => {
 // Put generated HTML on page
 document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
 
-function deliveryOptionsHTML(matchingProduct) {
+function deliveryOptionsHTML(matchingProduct, cartItem) {
   let html = '';
   
   deliveryOptions.forEach((deliveryOption) => {
@@ -88,14 +104,17 @@ function deliveryOptionsHTML(matchingProduct) {
     const dateString = deliveryDate.format('dddd, MMMM, D');
 
     // Use ternary statement
-    const priceString = Option.priceCents
+    const priceString = deliveryOption.priceCents
     === 0
     ? 'Free'
-    : `$${formatCurrency(deliveryOption.priceCents)} -`;
+    : `$${formatCurrency(deliveryOption.priceCents)} - Shipping`;
+
+    const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
     html+= `
       <div class="delivery-option">
         <input type="radio"
+          ${isChecked ? 'checked' : '' }
           class="delivery-option-input"
           name="delivery-option-${matchingProduct.id}">
         <div>

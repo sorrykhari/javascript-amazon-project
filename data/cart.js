@@ -4,12 +4,12 @@ if(!cart){
   cart = [{
     productId: 'id1',
     quantity: 3,
-    deliverOptionId: '1'
+    deliveryOptionId: '1'
   },
   {
     productId: 'id2',
     quantity: 1,
-    deliverOptionId: '2'
+    deliveryOptionId: '2'
   }];
 }
 
