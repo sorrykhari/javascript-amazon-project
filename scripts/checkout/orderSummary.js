@@ -1,8 +1,7 @@
 import { cart, removeFromCart, calculateCartQuantity, updateQuantity, updateDeliveryOption } from "../../data/cart.js"; 
 import { products } from "../../data/products.js";
 import formatCurrency from "../utils/money.js";
-import  dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
-import { deliveryOptions, getDeliveryOption } from "../../data/deliveryOptions.js"
+import { caluclateDeliveryDate, deliveryOptions, getDeliveryOption } from "../../data/deliveryOptions.js"
 import { renderPaymentSummary } from "./paymentSummary.js";
 import { renderCheckoutHeader } from "./checkoutHeader.js";
 
@@ -27,12 +26,7 @@ export function renderOrderSummary() {
     
     const deliveryOption = getDeliveryOption(deliveryOptionId);
 
-    const today = dayjs();
-    const deliveryDate = today.add(
-      deliveryOption.deliveryDays,
-      'day'
-    );
-    const dateString = deliveryDate.format('dddd, MMMM, D');
+    const dateString = caluclateDeliveryDate(deliveryOption);
 
     cartSummaryHTML += `
       <div class="cart-item-container
@@ -94,12 +88,8 @@ export function renderOrderSummary() {
     let html = '';
     
     deliveryOptions.forEach((deliveryOption) => {
-      const today = dayjs();
-      const deliveryDate = today.add(
-        deliveryOption.deliveryDays,
-        'day'
-      );
-      const dateString = deliveryDate.format('dddd, MMMM, D');
+      
+      const dateString = caluclateDeliveryDate(deliveryOption);
 
       // Use ternary statement
       const priceString = deliveryOption.priceCents
@@ -131,15 +121,6 @@ export function renderOrderSummary() {
 
     return html;
   }
-
-  /*function updateCheckoutQuantity() {
-    
-    let cartQuantity = calculateCartQuantity();
-
-    document.querySelector('.js-checkout-header-middle-section')
-      .innerHTML = `Checkout (<a class="return-to-home-link"
-              href="amazon.html">${cartQuantity} items</a>)`;
-  }*/
 
   function updateQuantityLabel(productId, newQuantity) {
     const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
