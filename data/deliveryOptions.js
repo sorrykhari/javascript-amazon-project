@@ -17,6 +17,19 @@ export const deliveryOptions = [{
 }
 ];
 
+function isWeekend(date) {
+	const dayOfWeek = date.format('dddd');
+	if (dayOfWeek === 'Saturday') {
+		return dayOfWeek;
+	}
+	else if (dayOfWeek === 'Sunday') {
+		return dayOfWeek
+	}
+	else {
+		return null;
+	}
+}
+
 export function getDeliveryOption(deliveryOptionId) {
 	let deliveryOption;
 
@@ -30,12 +43,27 @@ export function getDeliveryOption(deliveryOptionId) {
 }
 
 export function caluclateDeliveryDate(deliveryOption) {
-	const today = dayjs()
-	const deliveryDate = today.add(
-		deliveryOption.deliveryDays,
-		'day'
-	);
-	const dateString = deliveryDate.format('dddd, MMMM D');
+	let date = dayjs() // Date is today
+	let deliveryDays = deliveryOption.deliveryDays; // The 1, 3 or 7 option picked
 
+	// make a while loop while numberLoop =/= 0
+	while (deliveryDays != 0) {
+		if (isWeekend(date)){
+			date = date.add(1, 'day');
+		}
+		else {
+			date = date.add(1, 'day');
+			deliveryDays--;
+		}
+	}
+
+	if (isWeekend(date) === 'Saturday'){
+		date = date.add(2, 'day');
+	}
+	else if (isWeekend(date) === 'Sunday') {
+		date = date.add(1, 'day');
+	}
+	
+	const dateString = date.format('dddd, MMMM D');
 	return dateString;
 }
