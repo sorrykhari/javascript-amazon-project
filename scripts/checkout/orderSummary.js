@@ -4,12 +4,13 @@ import formatCurrency from "../utils/money.js";
 import  dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import { deliveryOptions, getDeliveryOption } from "../../data/deliveryOptions.js"
 import { renderPaymentSummary } from "./paymentSummary.js";
+import { renderCheckoutHeader } from "./checkoutHeader.js";
 
 export function renderOrderSummary() {
 
   let cartSummaryHTML = '';
 
-  updateCheckoutQuantity();
+  renderCheckoutHeader();
 
   cart.forEach((cartItem) => {
     const { productId } = cartItem;
@@ -131,14 +132,14 @@ export function renderOrderSummary() {
     return html;
   }
 
-  function updateCheckoutQuantity() {
+  /*function updateCheckoutQuantity() {
     
     let cartQuantity = calculateCartQuantity();
 
     document.querySelector('.js-checkout-header-middle-section')
       .innerHTML = `Checkout (<a class="return-to-home-link"
               href="amazon.html">${cartQuantity} items</a>)`;
-  }
+  }*/
 
   function updateQuantityLabel(productId, newQuantity) {
     const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
@@ -151,7 +152,7 @@ export function renderOrderSummary() {
       link.addEventListener('click', () => {
         const { productId } = link.dataset;
         removeFromCart(productId);
-        updateCheckoutQuantity();
+        renderCheckoutHeader();
         renderOrderSummary();
         renderPaymentSummary();
       });
@@ -197,7 +198,7 @@ export function renderOrderSummary() {
             updateQuantityLabel(productId, newQuantity);
 
             // Update header checkout when product quantity changed in input
-            updateCheckoutQuantity();
+            renderCheckoutHeader();
             renderOrderSummary();
             renderPaymentSummary();
           });
