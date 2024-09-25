@@ -152,10 +152,7 @@ export function renderOrderSummary() {
         const { productId } = link.dataset;
         removeFromCart(productId);
         updateCheckoutQuantity();
-
-        const container = document
-        .querySelector(`.js-cart-item-container-${productId}`);
-        container.remove();
+        renderOrderSummary();
         renderPaymentSummary();
       });
     });
