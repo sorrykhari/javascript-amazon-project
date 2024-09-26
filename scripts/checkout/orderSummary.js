@@ -122,12 +122,6 @@ export function renderOrderSummary() {
     return html;
   }
 
-  function updateQuantityLabel(productId, newQuantity) {
-    const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
-    quantityLabel.innerText = newQuantity;
-  }
-
-
   document.querySelectorAll('.js-delete-link')
     .forEach((link) => {
       link.addEventListener('click', () => {
@@ -173,10 +167,12 @@ export function renderOrderSummary() {
               link.classList.remove('hidden');
               originalQuantity.innerText = '';
               updateQuantity(productId,newQuantity);
+              renderCheckoutHeader();
+              renderOrderSummary();
+              renderPaymentSummary();
             }
             
             // Update product quantity label based on input
-            updateQuantityLabel(productId, newQuantity);
 
             // Update header checkout when product quantity changed in input
             renderCheckoutHeader();
