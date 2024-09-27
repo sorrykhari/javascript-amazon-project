@@ -1,4 +1,4 @@
-import formatCurrency from "../scripts/utils/money.js";
+ import formatCurrency from "../../scripts/utils/money.js";
 
 console.log('test suite: formatCurrency');
 
@@ -36,6 +36,15 @@ else {
 console.log('rounds down to nearest cent');
 
 if (formatCurrency(2000.4) === '20.00') {
+    console.log('passed');
+}
+else {
+    console.log('failed');
+}
+
+console.log('handles negative numbers');
+
+if (formatCurrency(-1000) === '-10.00') {
     console.log('passed');
 }
 else {
