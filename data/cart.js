@@ -97,8 +97,9 @@ export function updateQuantity(productId, newQuantity) {
 export function updateDeliveryOption(productId, deliveryOptionId) {
   const matchedItem = findInCart(productId);
 
-  matchedItem.deliveryOptionId = deliveryOptionId;
-
-  saveToStorage();
+  if (matchedItem) {
+    matchedItem.deliveryOptionId = deliveryOptionId;
+    saveToStorage();
+  }
 }
 
