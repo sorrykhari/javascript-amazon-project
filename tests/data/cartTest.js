@@ -1,4 +1,4 @@
-import { addToCart, cart, loadFromStorage} from "../../data/cart.js";
+import { addToCart, cart, loadFromStorage, removeFromCart} from "../../data/cart.js";
 
 describe('test suite: addToCart', () => {
     beforeEach(() => {
@@ -48,4 +48,35 @@ describe('test suite: addToCart', () => {
             deliveryOptionId: '1'
         }]));
     });
+});
+
+describe('test suite: removeFromCart', () => {
+  beforeEach(() => {
+    spyOn(localStorage, 'setItem');
+    spyOn(localStorage, 'getItem').and.callFake(() => {
+      return JSON.stringify([{
+          productId: 'id1',
+          quantity: 1,
+          deliveryOptionId: '1'
+        }]);
+    });
+  });
+  
+  it('remove existing product from cart', () => {
+    // Loads cart from local storage
+    loadFromStorage();
+    // Removes cart, length of cart should be 0
+    removeFromCart('id1');
+    expect(cart.length).toEqual(0);
+    expect(localStorage.setItem).toHaveBeenCalledTimes(1);
+  });
+  
+  it('attempts to remove product from cart that doesn\'t exist', () => {
+    loadFromStorage();
+    removeFromCart('id2');
+    expect(cart.length).toEqual(1);
+    expect(localStorage.setItem).toHaveBeenCalledTimes(1);
+    expect(cart[0].productId).toEqual('id1');
+  });
+
 });
