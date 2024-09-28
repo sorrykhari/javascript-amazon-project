@@ -144,10 +144,10 @@ export function renderOrderSummary() {
       .forEach((link) => {
         link.addEventListener('click', () => {
           const { productId } = link.dataset;
-
+          const originalQuantity = document.querySelector(`.js-original-quantity-${productId}`);
           const inputBox = document.querySelector(`.js-quantity-input-${productId}`);
           const saveLink = document.querySelector(`.js-save-quantity-link-${productId}`);
-          const originalQuantity = document.querySelector(`.js-original-quantity-${productId}`);
+          const newQuantityValue = document.querySelector(`.js-quantity-label-${productId}`);
           inputBox.classList.remove('hidden');
           saveLink.classList.remove('hidden');
           link.classList.add('hidden');
@@ -171,9 +171,11 @@ export function renderOrderSummary() {
               saveLink.classList.add('hidden');
               link.classList.remove('hidden');
               originalQuantity.innerText = '';
+              console.log(newQuantity);
+              newQuantityValue.innerText = newQuantity;
               updateQuantity(productId,newQuantity);
               renderCheckoutHeader();
-              renderOrderSummary();
+              //renderOrderSummary();
               renderPaymentSummary();
             }
             
@@ -181,7 +183,7 @@ export function renderOrderSummary() {
 
             // Update header checkout when product quantity changed in input
             renderCheckoutHeader();
-            renderOrderSummary();
+            //renderOrderSummary();
             renderPaymentSummary();
           });
         });
