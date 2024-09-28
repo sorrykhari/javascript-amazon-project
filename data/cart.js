@@ -96,8 +96,7 @@ export function updateQuantity(productId, newQuantity) {
 // I have no idea why this is working but I will not question it.
 export function updateDeliveryOption(productId, deliveryOptionId) {
   const matchedItem = findInCart(productId);
-
-  if (matchedItem) {
+  if (matchedItem && ['1', '2', '3'].includes(deliveryOptionId)) {
     matchedItem.deliveryOptionId = deliveryOptionId;
     saveToStorage();
   }

@@ -115,7 +115,15 @@ describe('test suite: updateDeliveryOption', () => {
     expect(cart[0].productId).toEqual('id1');
     expect(cart.length).toEqual(1);
     expect(localStorage.setItem).toHaveBeenCalledTimes(0);
-  })
+  });
 
-
+  it('edge case: delivery option doesn\'t exist', () => {
+    loadFromStorage();
+    updateDeliveryOption('id1','4');
+    expect(cart[0].deliveryOptionId).toEqual('1');
+    expect(cart[0].quantity).toEqual(1);
+    expect(cart[0].productId).toEqual('id1');
+    expect(cart.length).toEqual(1);
+    expect(localStorage.setItem).toHaveBeenCalledTimes(0);
+  });
 });
