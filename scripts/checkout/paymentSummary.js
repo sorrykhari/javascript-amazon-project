@@ -38,7 +38,8 @@ export function renderPaymentSummary() {[]
 					</div>
 				</div>
 
-				<div class="payment-summary-row">
+				<div class="payment-summary-row
+				js-shipping-payment">
 					<div>Shipping &amp; handling:</div>
 					<div class="payment-summary-money">
 					$${formatCurrency(shippingPriceCents)}
@@ -61,7 +62,8 @@ export function renderPaymentSummary() {[]
 
 				<div class="payment-summary-row total-row">
 					<div>Order total:</div>
-					<div class="payment-summary-money">
+					<div class="payment-summary-money
+					js-order-total">
 					$${formatCurrency(totalCents)}
 					</div>
 				</div>

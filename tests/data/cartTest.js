@@ -78,5 +78,4 @@ describe('test suite: removeFromCart', () => {
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
     expect(cart[0].productId).toEqual('id1');
   });
-
 });
