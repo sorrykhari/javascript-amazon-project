@@ -3,7 +3,11 @@ import { loadFromStorage, cart } from "../../data/cart.js";
 
 
 describe('test suite: renderOrderSummary', () => {
+	const productName1 = 'Pokemon Center: Sitting Cuties: Mewtwo Plush # 150 - Generation 1';
+	const productName2 = 'Frog Dragon I Nick Michel Skateboard Deck - Black - 8.25';
+
 	beforeEach(() => {
+		
 		spyOn(localStorage, 'setItem');
 		document.querySelector('.js-test-container').innerHTML = `
 		<div class="js-order-summary"></div>
@@ -11,6 +15,7 @@ describe('test suite: renderOrderSummary', () => {
 		<div class="js-checkout-header-middle-section"></div>
 		`;
 
+	
 		spyOn(localStorage, 'getItem').and.callFake(() => {
 			return JSON.stringify([
 				{
@@ -27,7 +32,11 @@ describe('test suite: renderOrderSummary', () => {
 		loadFromStorage();
 
 		renderOrderSummary();
-	})
+	});
+
+	afterEach(() => {
+		document.querySelector('.js-test-container').innerHTML = '';
+	});
 
 	it('displays the cart', () => {
 		
@@ -43,7 +52,7 @@ describe('test suite: renderOrderSummary', () => {
 			document.querySelector('.js-product-quantity-id2').innerText
 		).toContain('1 Quantity:');
 
-		document.querySelector('.js-test-container').innerHTML = '';
+		
 	});
 
 	it('removes a product', () => {
@@ -65,6 +74,27 @@ describe('test suite: renderOrderSummary', () => {
 		expect(cart.length).toEqual(1);
 		expect(cart[0].productId).toEqual('id2');
 
-		document.querySelector('.js-test-container').innerHTML = '';
+		
+	});
+
+	it('check product name on page', () => {
+		
+		expect(
+			document.querySelector('.js-product-name-id1').innerText
+		).toEqual(productName1);
+
+		expect(
+			document.querySelector('.js-product-name-id2').innerText
+		).toEqual(productName2);
+	});
+
+	it('check if prices are correct on page', () => {
+		expect(
+			document.querySelector('.js-product-price-id1').innerText
+		).toEqual('$39.99');
+
+		expect(
+			document.querySelector('.js-product-price-id2').innerText
+		).toEqual('$76.95');
 	});
 });
