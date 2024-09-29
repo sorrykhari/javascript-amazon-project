@@ -171,7 +171,6 @@ export function renderOrderSummary() {
               saveLink.classList.add('hidden');
               link.classList.remove('hidden');
               originalQuantity.innerText = '';
-              console.log(newQuantity);
               newQuantityValue.innerText = newQuantity;
               updateQuantity(productId,newQuantity);
               renderCheckoutHeader();
