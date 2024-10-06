@@ -237,10 +237,8 @@ export function loadProducts(fun) {
     productsPlus.forEach((product) => {
       products.push(product);
     });
-
+    console.log('load products');
     fun();
-    console.log(productsPlus);
-    console.log(products);
   });
 
   xhr.open('GET', 'https://supersimplebackend.dev/products');
