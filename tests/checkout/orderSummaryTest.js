@@ -1,6 +1,6 @@
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js"
 import { loadFromStorage, cart } from "../../data/cart.js";
-import { loadProducts } from "../../data/products.js";
+import { loadProducts, loadProductsFetch } from "../../data/products.js";
 
 
 describe('test suite: renderOrderSummary', () => {
@@ -8,9 +8,9 @@ describe('test suite: renderOrderSummary', () => {
 	const productName2 = 'Frog Dragon I Nick Michel Skateboard Deck - Black - 8.25';
 
 	beforeAll((done) => {
-		loadProducts(() => {
-			done(); // waits for products to load then goes to next step
-		});	
+		loadProductsFetch().then(() => {
+			done();
+		});
 	});
 
 
