@@ -1,10 +1,18 @@
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js"
 import { loadFromStorage, cart } from "../../data/cart.js";
+import { loadProducts } from "../../data/products.js";
 
 
 describe('test suite: renderOrderSummary', () => {
 	const productName1 = 'Pokemon Center: Sitting Cuties: Mewtwo Plush # 150 - Generation 1';
 	const productName2 = 'Frog Dragon I Nick Michel Skateboard Deck - Black - 8.25';
+
+	beforeAll((done) => {
+		loadProducts(() => {
+			done(); // waits for products to load then goes to next step
+		});	
+	});
+
 
 	beforeEach(() => {
 		
