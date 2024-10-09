@@ -7,9 +7,9 @@ describe('test suite: renderOrderSummary', () => {
 	const productName1 = 'Pokemon Center: Sitting Cuties: Mewtwo Plush # 150 - Generation 1';
 	const productName2 = 'Frog Dragon I Nick Michel Skateboard Deck - Black - 8.25';
 
-	beforeAll((done) => {
-		loadProductsFetch().then(() => {
-			done();
+	 beforeAll(async () => {
+		await loadProductsFetch().then(() => {
+			
 		});
 	});
 

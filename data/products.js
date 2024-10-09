@@ -392,7 +392,7 @@ export function loadProducts(fun) {
     productsPlus.forEach((product) => {
       products.push(product);
     });
-    console.log('load products');
+    //console.log('load products');
     fun();
   });
 

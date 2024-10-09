@@ -1,5 +1,5 @@
 // 1. Import variables from Module and load product data
-import { cart, addToCart, calculateCartQuantity } from '../data/cart.js';
+import { cart, addToCart, calculateCartQuantity, loadCartFetch } from '../data/cart.js';
 import { products, loadProducts } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
@@ -118,4 +118,6 @@ function renderProductsGrid () {
           updateCartQuantity();
         });
       });
+ loadCartFetch();
   }
+
