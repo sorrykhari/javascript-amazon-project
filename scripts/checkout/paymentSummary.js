@@ -93,6 +93,7 @@ document.querySelector('.js-place-order')
 			});
 	
 			const order = await response.json();
+			console.log(order);
 			addOrder(order);
 		}
 		catch (error) {
