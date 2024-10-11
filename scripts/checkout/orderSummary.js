@@ -1,5 +1,5 @@
 import { cart, removeFromCart, calculateCartQuantity, updateQuantity, updateDeliveryOption } from "../../data/cart.js"; 
-import { products } from "../../data/products.js";
+import { findMatchingProduct, products } from "../../data/products.js";
 import formatCurrency from "../utils/money.js";
 import { caluclateDeliveryDate, deliveryOptions, getDeliveryOption } from "../../data/deliveryOptions.js"
 import { renderPaymentSummary } from "./paymentSummary.js";
@@ -14,13 +14,7 @@ export function renderOrderSummary() {
   cart.forEach((cartItem) => {
     const { productId } = cartItem;
 
-    let matchingProduct; 
-
-    products.forEach((product) => {
-      if (product.id === productId) {
-        matchingProduct = product;
-      }
-    });
+    let matchingProduct = findMatchingProduct(productId); 
 
     const deliveryOptionId = cartItem.deliveryOptionId;
     
