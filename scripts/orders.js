@@ -1,95 +1,71 @@
+import { addToCart, calculateCartQuantity, updateQuantity } from "../data/cart.js";
 import { orders } from "../data/orders.js";
 import { findMatchingProduct, products } from "../data/products.js";
-
-//1. Save Data
-//2. Generate HTML
-//3. Make interactive
+// initialize some variables
 let orderHeaderHTML = '';
 let orderDetailHTML = '';
+let cartQuantity = calculateCartQuantity();
 
-
+// loop through each order to create unique header
 orders.forEach((order) => {
   let matchedProduct;
-  const d = new Date(order.orderTime);
-  const orderDate = d.toLocaleDateString('en-US', {month: 'long', day: '2-digit'});
-  console.log(order);
-  console.log(order.getPrice());
-  console.log(orderDate);
+  const orderDate = formatDate(order.orderTime);
 
   orderHeaderHTML += 
   `
-       <div class="orders-grid">
-        <div class="order-container">
-          
-          <div class="order-header">
-            <div class="order-header-left-section">
-              <div class="order-date">
-                <div class="order-header-label">Order Placed:</div>
-                <div>August 12</div>
-              </div>
-              <div class="order-total">
-                <div class="order-header-label">Total:</div>
-                <div>$35.06</div>
-              </div>
-            </div>
+      <div class="order-container">
 
-            <div class="order-header-right-section">
-              <div class="order-header-label">Order ID:</div>
-              <div>27cba69d-4c3d-4098-b42d-ac7fa62b7664</div>
+        <div class="order-header">
+          <div class="order-header-left-section">
+            <div class="order-date">
+              <div class="order-header-label">Order Placed:</div>
+              <div>${orderDate}</div>
+            </div>
+            <div class="order-total">
+              <div class="order-header-label">Total:</div>
+              <div>${order.getPrice()}</div>
             </div>
           </div>
 
-          <div class="order-details-grid">
-            
+          <div class="order-header-right-section">
+            <div class="order-header-label">Order ID:</div>
+            <div>${order.id}</div>
           </div>
         </div>
 
-        <div class="order-container">
-
-          <div class="order-header">
-            <div class="order-header-left-section">
-              <div class="order-date">
-                <div class="order-header-label">Order Placed:</div>
-                <div>${orderDate}</div>
-              </div>
-              <div class="order-total">
-                <div class="order-header-label">Total:</div>
-                <div>${order.getPrice()}</div>
-              </div>
-            </div>
-
-            <div class="order-header-right-section">
-              <div class="order-header-label">Order ID:</div>
-              <div>${order.id}</div>
-            </div>
-          </div>
-
-          <div class="order-details-grid">
-            
-          </div>
+        <div class="order-details-grid js-order-details-grid">
         </div>
       </div>
+    </div>
   `;
-
+  
+  // loop through products of each order to place inside container 
   order.products.forEach((product) => {
-    matchedProduct = findMatchingProduct(product.productId);
-    orderDetailHTML = 
+    const { quantity, estimatedDeliveryTime, productId } = product;
+    matchedProduct = findMatchingProduct(productId);
+    const { name, image } = matchedProduct;
+    const deliveryDate = formatDate(estimatedDeliveryTime)
+    
+    orderDetailHTML += 
     `
     <div class="product-image-container">
-              <img src="images/products/athletic-cotton-socks-6-pairs.jpg">
+              <img src="${image}">
             </div>
 
             <div class="product-details">
               <div class="product-name">
-                Black and Gray Athletic Cotton Socks - 6 Pairs
+              ${name}
               </div>
               <div class="product-delivery-date">
-                Arriving on: August 15
+                Arriving on: ${deliveryDate}
               </div>
               <div class="product-quantity">
-                Quantity: 1
+                Quantity: ${quantity}
               </div>
-              <button class="buy-again-button button-primary">
+              <button class="buy-again-button button-primary
+              js-buy-again-button"
+              data-product-id="${productId}"
+              data-quantity = ${quantity}>
                 <img class="buy-again-icon" src="images/icons/buy-again.png">
                 <span class="buy-again-message">Buy it again</span>
               </button>
@@ -104,6 +80,29 @@ orders.forEach((order) => {
             </div>
     `;
   });
-
-  
 });
+
+document.querySelector('.js-order-container')
+  .innerHTML = orderHeaderHTML;
+
+document.querySelector('.js-order-details-grid')
+  .innerHTML = orderDetailHTML;
+
+document.querySelector('.js-cart-quantity')
+  .innerText = cartQuantity;
+
+document.querySelectorAll('.js-buy-again-button')
+  .forEach((button) => {
+    button.addEventListener('click', () => {
+      const { productId, quantity } = button.dataset;
+      console.log(productId);
+      console.log(Number(quantity));
+      addToCart(productId, Number(quantity));
+    });
+
+});
+function formatDate(date) {
+  const d = new Date(date);
+  const formattedDate = d.toLocaleDateString('en-US', {month: 'long', day: '2-digit'});
+  return formattedDate;
+}
