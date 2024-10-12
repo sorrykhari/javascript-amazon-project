@@ -69,6 +69,14 @@ export function removeFromCart(productId) {
   saveToStorage();
 }
 
+export function updateCartQuantity() {
+    
+  let cartQuantity = calculateCartQuantity();
+    
+  document.querySelector('.js-cart-quantity')
+  .innerHTML = cartQuantity;
+}
+
 export function calculateCartQuantity() {
   let cartQuantity = 0;
 

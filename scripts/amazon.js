@@ -1,5 +1,5 @@
 // 1. Import variables from Module and load product data
-import { cart, addToCart, calculateCartQuantity, loadCartFetch } from '../data/cart.js';
+import { cart, addToCart, calculateCartQuantity, loadCartFetch, updateCartQuantity } from '../data/cart.js';
 import { products, loadProducts } from '../data/products.js';
 renderProductsGrid();
 
@@ -76,13 +76,13 @@ function renderProductsGrid () {
 
     
 
-  function updateCartQuantity() {
+  /*function updateCartQuantity() {
     
     let cartQuantity = calculateCartQuantity();
       
     document.querySelector('.js-cart-quantity')
     .innerHTML = cartQuantity;
-  }
+  }*/
 
   function addedMessage(productId, intervalId) {
       const addedElement = document.querySelector(`.js-added-to-cart-${productId}`);
